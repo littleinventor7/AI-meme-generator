@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrap Memes AI 🤖🤣</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        #chatbox { width: 80%; max-width: 500px; margin: 20px auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background: #f9f9f9; text-align: left; }
+        img { width: 100%; max-width: 400px; border-radius: 10px; margin-top: 10px; }
+        input, button { padding: 10px; margin-top: 10px; width: 80%; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Scrap infuriating Memes AI generator 🤖🤣</h2>
+    <div id="chatbox">
+        <p><b>Bot:</b>Ask me anything and I'll make you a stupid meme!</p>
+    </div>
+    <input type="text" id="userInput" placeholder="اكتب سؤالك...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const memeImages = [
+            "1.jpg",
+            "2.jpg",
+            "3.jpg",
+            "4.jpg",
+            "5.jpg",
+            "6.jpg",
+            "7.jpg",
+            "9.jpg",
+            "8.jpg",
+            "2.png"
+        ];
+
+        async function sendMessage() {
+            let userInput = document.getElementById("userInput").value;
+            if (!userInput) return;
+
+            let chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += `<p><b>You:</b> ${userInput}</p>`;
+
+        };
+
+        async function sendMessage() {
+            let userInput = document.getElementById("userInput").value;
+            if (!userInput) return;
+
+            let chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += `<p><b>You:</b> ${userInput}</p>`;
+
+            
+            let response = await fetch("https://ai.hackclub.com/chat/completions", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    messages: [{ role: "user", content: `Make a stupid meme comment about: ${userInput}` }]
+                })
+            });
+
+            let data = await response.json();
+            let botResponse = data.choices[0].message.content;
+
+            let randomMeme = memeImages[Math.floor(Math.random() * memeImages.length)];
+
+            setTimeout(() => {
+                chatbox.innerHTML += `<p><b>Bot:</b> ${botResponse}</p>`;
+                chatbox.innerHTML += `<img src="${randomMeme}" alt="Meme">`;
+                document.getElementById("userInput").value = "";
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
